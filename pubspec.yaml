@@ -1,0 +1,17 @@
+name: waktusolat_api_client_core
+description: A Dart package that provides endpoint URL builders for the Malaysia Waktu Solat API. Generate properly formatted URLs for prayer times, zones, and PDF timetable endpoints.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.9.0
+
+# Add regular dependencies here.
+dependencies:
+  json_annotation: ^4.9.0
+
+dev_dependencies:
+  build_runner: ^2.7.0
+  json_serializable: ^6.11.0
+  lints: ^6.0.0
+  test: ^1.25.6
