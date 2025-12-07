@@ -10,16 +10,14 @@ void main() {
   group('by zone', () {
     test('zone only', () {
       final endpoint = MptSolatV2Endpoint.byZone('SGR01');
-      expect(endpoint, Uri.parse('https://api.waktusolat.app/v2/solat/SGR01'));
+      expect(endpoint.toString(), 'https://api.waktusolat.app/v2/solat/SGR01');
     });
 
     test('zone, year and month', () {
       final endpoint = MptSolatV2Endpoint.byZone('sgr01', year: 2023, month: 3);
       expect(
-        endpoint,
-        Uri.parse(
-          'https://api.waktusolat.app/v2/solat/SGR01?year=2023&month=3',
-        ),
+        endpoint.toString(),
+        'https://api.waktusolat.app/v2/solat/SGR01?year=2023&month=3',
       );
     });
   });
@@ -31,8 +29,8 @@ void main() {
         longitude: 101.630263,
       );
       expect(
-        endpoint,
-        Uri.parse('https://api.waktusolat.app/v2/solat/3.068498/101.630263'),
+        endpoint.toString(),
+        'https://api.waktusolat.app/v2/solat/3.068498/101.630263',
       );
     });
 
@@ -44,10 +42,8 @@ void main() {
         month: 6,
       );
       expect(
-        endpoint,
-        Uri.parse(
-          'https://api.waktusolat.app/v2/solat/-3.068498/-101.630263?year=2025&month=6',
-        ),
+        endpoint.toString(),
+        'https://api.waktusolat.app/v2/solat/-3.068498/-101.630263?year=2025&month=6',
       );
     });
   });
@@ -56,16 +52,16 @@ void main() {
     MptBaseController.setBaseUrl('https://api.example.com/');
 
     expect(
-      MptSolatV2Endpoint.byZone('SGR01', year: 2023),
-      Uri.parse('https://api.example.com/v2/solat/SGR01?year=2023'),
+      MptSolatV2Endpoint.byZone('SGR01', year: 2023).toString(),
+      'https://api.example.com/v2/solat/SGR01?year=2023',
     );
     expect(
       MptSolatV2Endpoint.byGps(
         latitude: 3.068498,
         longitude: 101.630263,
         month: 6,
-      ),
-      Uri.parse('https://api.example.com/v2/solat/3.068498/101.630263?month=6'),
+      ).toString(),
+      'https://api.example.com/v2/solat/3.068498/101.630263?month=6',
     );
   });
 }

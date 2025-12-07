@@ -11,24 +11,24 @@ void main() {
   test('mpt jadual solat endpoint with zone only', () {
     final endpoint = MptJadualSolatEndpoint.download('SGR01');
     expect(
-      endpoint,
-      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01'),
+      endpoint.toString(),
+      'https://api.waktusolat.app/jadual_solat/SGR01',
     );
   });
 
   test('mpt jadual solat endpoint with zone and year', () {
     final endpoint = MptJadualSolatEndpoint.download('SGR01', year: 2025);
     expect(
-      endpoint,
-      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01?year=2025'),
+      endpoint.toString(),
+      'https://api.waktusolat.app/jadual_solat/SGR01?year=2025',
     );
   });
 
   test('mpt jadual solat endpoint with zone and month only', () {
     final endpoint = MptJadualSolatEndpoint.download('SGR01', month: 6);
     expect(
-      endpoint,
-      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01?month=6'),
+      endpoint.toString(),
+      'https://api.waktusolat.app/jadual_solat/SGR01?month=6',
     );
   });
 
@@ -39,10 +39,8 @@ void main() {
       month: 6,
     );
     expect(
-      endpoint,
-      Uri.parse(
-        'https://api.waktusolat.app/jadual_solat/SGR01?year=2025&month=6',
-      ),
+      endpoint.toString(),
+      'https://api.waktusolat.app/jadual_solat/SGR01?year=2025&month=6',
     );
   });
 
@@ -55,16 +53,16 @@ void main() {
       month: 6,
     );
     expect(
-      endpoint,
-      Uri.parse('https://api.example.com/jadual_solat/SGR01?year=2025&month=6'),
+      endpoint.toString(),
+      'https://api.example.com/jadual_solat/SGR01?year=2025&month=6',
     );
   });
 
   test('zone is converted to uppercase', () {
     final endpoint = MptJadualSolatEndpoint.download('sgr01');
     expect(
-      endpoint,
-      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01'),
+      endpoint.toString(),
+      'https://api.waktusolat.app/jadual_solat/SGR01',
     );
   });
 }

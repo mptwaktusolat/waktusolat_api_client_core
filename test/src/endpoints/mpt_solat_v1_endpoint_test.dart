@@ -10,14 +10,14 @@ void main() {
   group('monthly', () {
     test('zone only', () {
       final endpoint = MptSolatV1Endpoint.monthly('SGR01');
-      expect(endpoint, Uri.parse('https://api.waktusolat.app/solat/SGR01'));
+      expect(endpoint.toString(), 'https://api.waktusolat.app/solat/SGR01');
     });
 
     test('zone and year', () {
       final endpoint = MptSolatV1Endpoint.monthly('SGR01', year: 2024);
       expect(
-        endpoint,
-        Uri.parse('https://api.waktusolat.app/solat/SGR01?year=2024'),
+        endpoint.toString(),
+        'https://api.waktusolat.app/solat/SGR01?year=2024',
       );
     });
 
@@ -28,8 +28,8 @@ void main() {
         month: 4,
       );
       expect(
-        endpoint,
-        Uri.parse('https://api.waktusolat.app/solat/SGR01?year=2024&month=4'),
+        endpoint.toString(),
+        'https://api.waktusolat.app/solat/SGR01?year=2024&month=4',
       );
     });
   });
@@ -37,7 +37,7 @@ void main() {
   group('daily', () {
     test('zone and day', () {
       final endpoint = MptSolatV1Endpoint.daily('SGR01', 1);
-      expect(endpoint, Uri.parse('https://api.waktusolat.app/solat/SGR01/1'));
+      expect(endpoint.toString(), 'https://api.waktusolat.app/solat/SGR01/1');
     });
 
     test('zone, day, year and month', () {
@@ -60,12 +60,12 @@ void main() {
     MptBaseController.setBaseUrl('https://api.example.com/');
 
     expect(
-      MptSolatV1Endpoint.monthly('SGR01', year: 2024, month: 4),
-      Uri.parse('https://api.example.com/solat/SGR01?year=2024&month=4'),
+      MptSolatV1Endpoint.monthly('SGR01', year: 2024, month: 4).toString(),
+      'https://api.example.com/solat/SGR01?year=2024&month=4',
     );
     expect(
-      MptSolatV1Endpoint.daily('SGR01', 10, year: 2024),
-      Uri.parse('https://api.example.com/solat/SGR01/10?year=2024'),
+      MptSolatV1Endpoint.daily('SGR01', 10, year: 2024).toString(),
+      'https://api.example.com/solat/SGR01/10?year=2024',
     );
   });
 }
