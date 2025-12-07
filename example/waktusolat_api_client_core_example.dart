@@ -5,43 +5,59 @@ void main() {
 
   // JADUAL SOLAT - PDF Download endpoints
   print('1. JADUAL SOLAT (PDF Download):');
-  var jadualEndpoint1 = MptJadualSolatEndpoint('SGR01');
-  print('   Current month: ${jadualEndpoint1.getFullUrl()}');
+  final jadualEndpoint1 = MptJadualSolatEndpoint.download('SGR01');
+  print('   Current month: $jadualEndpoint1');
 
-  var jadualEndpoint2 = MptJadualSolatEndpoint('SGR01', year: 2025, month: 12);
-  print('   Specific month: ${jadualEndpoint2.getFullUrl()}\n');
+  final jadualEndpoint2 = MptJadualSolatEndpoint.download(
+    'SGR01',
+    year: 2025,
+    month: 12,
+  );
+  print('   Specific month: $jadualEndpoint2\n');
 
   // SOLAT V1 endpoints
   print('2. SOLAT V1 (JAKIM Compatible):');
-  var solatV1Month = MptSolatV1MonthEndpoint('SGR01', year: 2024, month: 4);
-  print('   Monthly: ${solatV1Month.getFullUrl()}');
+  final solatV1Month = MptSolatV1Endpoint.monthly(
+    'SGR01',
+    year: 2024,
+    month: 4,
+  );
+  print('   Monthly: $solatV1Month');
 
-  var solatV1Day = MptSolatV1DayEndpoint('SGR01', 15, year: 2024, month: 4);
-  print('   Daily: ${solatV1Day.getFullUrl()}\n');
+  final solatV1Day = MptSolatV1Endpoint.daily(
+    'SGR01',
+    15,
+    year: 2024,
+    month: 4,
+  );
+  print('   Daily: $solatV1Day\n');
 
   // SOLAT V2 endpoints
   print('3. SOLAT V2 (Updated Format):');
-  var solatV2Zone = MptSolatV2Endpoint('SGR01', year: 2025, month: 8);
-  print('   By Zone: ${solatV2Zone.getFullUrl()}');
+  final solatV2Zone = MptSolatV2Endpoint.byZone('SGR01', year: 2025, month: 8);
+  print('   By Zone: $solatV2Zone');
 
-  var solatV2Gps = MptSolatV2GpsEndpoint(
-    3.068498,
-    101.630263,
+  final solatV2Gps = MptSolatV2Endpoint.byGps(
+    latitude: 3.068498,
+    longitude: 101.630263,
     year: 2025,
     month: 8,
   );
-  print('   By GPS: ${solatV2Gps.getFullUrl()}\n');
+  print('   By GPS: $solatV2Gps\n');
 
   // ZONES endpoints
   print('4. ZONES (Location Information):');
-  var allZones = MptZonesEndpoint();
-  print('   All zones: ${allZones.getFullUrl()}');
+  final allZones = MptZonesEndpoint.listAll();
+  print('   All zones: $allZones');
 
-  var zonesByState = MptZonesByStateEndpoint('prk');
-  print('   By state: ${zonesByState.getFullUrl()}');
+  final zonesByState = MptZonesEndpoint.listAll(stateInitial: 'prk');
+  print('   By state: $zonesByState');
 
-  var zonesByGps = MptZonesByGpsEndpoint(3.068498, 101.630263);
-  print('   By GPS: ${zonesByGps.getFullUrl()}\n');
+  final zonesByGps = MptZonesEndpoint.byGps(
+    latitude: 3.068498,
+    longitude: 101.630263,
+  );
+  print('   By GPS: $zonesByGps\n');
 
   // Demonstrate custom base URL
   print('5. Custom Base URL:');
@@ -50,8 +66,12 @@ void main() {
   MptBaseController.setBaseUrl('https://api.example.com');
   print('   Updated base URL: ${MptBaseController.baseUrl}');
 
-  var customEndpoint = MptSolatV2Endpoint('JHR01', year: 2024, month: 12);
-  print('   Custom endpoint: ${customEndpoint.getFullUrl()}');
+  final customEndpoint = MptSolatV2Endpoint.byZone(
+    'JHR01',
+    year: 2024,
+    month: 12,
+  );
+  print('   Custom endpoint: $customEndpoint');
 
   // Reset to default
   MptBaseController.setBaseUrl('https://api.waktusolat.app');

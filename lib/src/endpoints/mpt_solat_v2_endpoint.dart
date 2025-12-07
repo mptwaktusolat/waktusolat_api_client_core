@@ -1,33 +1,33 @@
-import '../base_endpoint.dart';
 import '../mpt_base_controller.dart';
 
-class MptSolatV2Endpoint extends BaseEndpoint {
-  final String zone;
-  final int? year;
-  final int? month;
+/// SOLAT V2 endpoint helpers supporting zone and GPS lookups
+class MptSolatV2Endpoint {
+  const MptSolatV2Endpoint._();
 
-  MptSolatV2Endpoint(this.zone, {this.year, this.month});
-
-  @override
-  String getFullUrl() {
-    final StringBuffer url = StringBuffer(
-      '${MptBaseController.baseUrl}/v2/solat/${zone.toUpperCase()}',
+  /// Returns prayer times for a given zone
+  static Uri byZone(String zone, {int? year, int? month}) {
+    final queryParams = <String, dynamic>{};
+    if (year != null) queryParams['year'] = year;
+    if (month != null) queryParams['month'] = month;
+    return MptBaseController.buildUri(
+      '/v2/solat/${zone.toUpperCase()}',
+      queryParams,
     );
+  }
 
-    final List<String> queryParams = [];
-
-    if (year != null) {
-      queryParams.add('year=$year');
-    }
-
-    if (month != null) {
-      queryParams.add('month=$month');
-    }
-
-    if (queryParams.isNotEmpty) {
-      url.write('?${queryParams.join('&')}');
-    }
-
-    return url.toString();
+  /// Returns prayer times by automatically detecting zone based on GPS
+  static Uri byGps({
+    required double latitude,
+    required double longitude,
+    int? year,
+    int? month,
+  }) {
+    final queryParams = <String, dynamic>{};
+    if (year != null) queryParams['year'] = year;
+    if (month != null) queryParams['month'] = month;
+    return MptBaseController.buildUri(
+      '/v2/solat/$latitude/$longitude',
+      queryParams,
+    );
   }
 }

@@ -3,17 +3,12 @@
 /// More dartdocs go here.
 library;
 
-export 'src/base_endpoint.dart';
 export 'src/mpt_base_controller.dart';
 
 // Endpoint exports
 export 'src/endpoints/mpt_jadual_solat_endpoint.dart';
-export 'src/endpoints/mpt_solat_v1_day_endpoint.dart';
-export 'src/endpoints/mpt_solat_v1_month_endpoint.dart';
+export 'src/endpoints/mpt_solat_v1_endpoint.dart';
 export 'src/endpoints/mpt_solat_v2_endpoint.dart';
-export 'src/endpoints/mpt_solat_v2_gps_endpoint.dart';
-export 'src/endpoints/mpt_zones_by_gps_endpoint.dart';
-export 'src/endpoints/mpt_zones_by_state_endpoint.dart';
 export 'src/endpoints/mpt_zones_endpoint.dart';
 
 // Model exports

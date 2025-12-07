@@ -4,58 +4,68 @@ import 'package:waktusolat_api_client_core/src/mpt_base_controller.dart';
 
 void main() {
   setUp(() {
-    // Reset base URL before each test
     MptBaseController.setBaseUrl('https://api.waktusolat.app');
   });
 
-  test('mpt solat v2 endpoint with zone only', () {
-    final endpoint = MptSolatV2Endpoint('SGR01');
-    expect(endpoint.getFullUrl(), 'https://api.waktusolat.app/v2/solat/SGR01');
+  group('by zone', () {
+    test('zone only', () {
+      final endpoint = MptSolatV2Endpoint.byZone('SGR01');
+      expect(endpoint, Uri.parse('https://api.waktusolat.app/v2/solat/SGR01'));
+    });
+
+    test('zone, year and month', () {
+      final endpoint = MptSolatV2Endpoint.byZone('sgr01', year: 2023, month: 3);
+      expect(
+        endpoint,
+        Uri.parse(
+          'https://api.waktusolat.app/v2/solat/SGR01?year=2023&month=3',
+        ),
+      );
+    });
   });
 
-  test('mpt solat v2 endpoint with zone and year', () {
-    final endpoint = MptSolatV2Endpoint('SGR01', year: 2023);
-    expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/v2/solat/SGR01?year=2023',
-    );
+  group('by gps', () {
+    test('coordinates only', () {
+      final endpoint = MptSolatV2Endpoint.byGps(
+        latitude: 3.068498,
+        longitude: 101.630263,
+      );
+      expect(
+        endpoint,
+        Uri.parse('https://api.waktusolat.app/v2/solat/3.068498/101.630263'),
+      );
+    });
+
+    test('coordinates, year and month', () {
+      final endpoint = MptSolatV2Endpoint.byGps(
+        latitude: -3.068498,
+        longitude: -101.630263,
+        year: 2025,
+        month: 6,
+      );
+      expect(
+        endpoint,
+        Uri.parse(
+          'https://api.waktusolat.app/v2/solat/-3.068498/-101.630263?year=2025&month=6',
+        ),
+      );
+    });
   });
 
-  test('mpt solat v2 endpoint with zone and month only', () {
-    final endpoint = MptSolatV2Endpoint('SGR01', month: 3);
-    expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/v2/solat/SGR01?month=3',
-    );
-  });
-
-  test('mpt solat v2 endpoint with zone, year and month', () {
-    final endpoint = MptSolatV2Endpoint('SGR01', year: 2023, month: 3);
-    expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/v2/solat/SGR01?year=2023&month=3',
-    );
-  });
-
-  test('mpt solat v2 endpoint with custom base url', () {
-    // Set custom base URL
-    MptBaseController.setBaseUrl('https://api.example.com');
-
-    final endpoint = MptSolatV2Endpoint('SGR01', year: 2023, month: 3);
-    expect(
-      endpoint.getFullUrl(),
-      'https://api.example.com/v2/solat/SGR01?year=2023&month=3',
-    );
-  });
-
-  test('base controller handles trailing slash', () {
-    // Set base URL with trailing slash
+  test('custom base url propagates to all variants', () {
     MptBaseController.setBaseUrl('https://api.example.com/');
 
-    final endpoint = MptSolatV2Endpoint('SGR01', year: 2023, month: 3);
     expect(
-      endpoint.getFullUrl(),
-      'https://api.example.com/v2/solat/SGR01?year=2023&month=3',
+      MptSolatV2Endpoint.byZone('SGR01', year: 2023),
+      Uri.parse('https://api.example.com/v2/solat/SGR01?year=2023'),
+    );
+    expect(
+      MptSolatV2Endpoint.byGps(
+        latitude: 3.068498,
+        longitude: 101.630263,
+        month: 6,
+      ),
+      Uri.parse('https://api.example.com/v2/solat/3.068498/101.630263?month=6'),
     );
   });
 }

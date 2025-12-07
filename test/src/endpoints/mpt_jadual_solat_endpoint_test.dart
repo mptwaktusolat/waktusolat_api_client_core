@@ -9,52 +9,62 @@ void main() {
   });
 
   test('mpt jadual solat endpoint with zone only', () {
-    final endpoint = MptJadualSolatEndpoint('SGR01');
+    final endpoint = MptJadualSolatEndpoint.download('SGR01');
     expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/jadual_solat/SGR01',
+      endpoint,
+      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01'),
     );
   });
 
   test('mpt jadual solat endpoint with zone and year', () {
-    final endpoint = MptJadualSolatEndpoint('SGR01', year: 2025);
+    final endpoint = MptJadualSolatEndpoint.download('SGR01', year: 2025);
     expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/jadual_solat/SGR01?year=2025',
+      endpoint,
+      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01?year=2025'),
     );
   });
 
   test('mpt jadual solat endpoint with zone and month only', () {
-    final endpoint = MptJadualSolatEndpoint('SGR01', month: 6);
+    final endpoint = MptJadualSolatEndpoint.download('SGR01', month: 6);
     expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/jadual_solat/SGR01?month=6',
+      endpoint,
+      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01?month=6'),
     );
   });
 
   test('mpt jadual solat endpoint with zone, year and month', () {
-    final endpoint = MptJadualSolatEndpoint('SGR01', year: 2025, month: 6);
+    final endpoint = MptJadualSolatEndpoint.download(
+      'SGR01',
+      year: 2025,
+      month: 6,
+    );
     expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/jadual_solat/SGR01?year=2025&month=6',
+      endpoint,
+      Uri.parse(
+        'https://api.waktusolat.app/jadual_solat/SGR01?year=2025&month=6',
+      ),
     );
   });
 
   test('mpt jadual solat endpoint with custom base url', () {
     MptBaseController.setBaseUrl('https://api.example.com');
 
-    final endpoint = MptJadualSolatEndpoint('SGR01', year: 2025, month: 6);
+    final endpoint = MptJadualSolatEndpoint.download(
+      'SGR01',
+      year: 2025,
+      month: 6,
+    );
     expect(
-      endpoint.getFullUrl(),
-      'https://api.example.com/jadual_solat/SGR01?year=2025&month=6',
+      endpoint,
+      Uri.parse('https://api.example.com/jadual_solat/SGR01?year=2025&month=6'),
     );
   });
 
   test('zone is converted to uppercase', () {
-    final endpoint = MptJadualSolatEndpoint('sgr01');
+    final endpoint = MptJadualSolatEndpoint.download('sgr01');
     expect(
-      endpoint.getFullUrl(),
-      'https://api.waktusolat.app/jadual_solat/SGR01',
+      endpoint,
+      Uri.parse('https://api.waktusolat.app/jadual_solat/SGR01'),
     );
   });
 }

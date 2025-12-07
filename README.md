@@ -16,23 +16,23 @@ A Dart package for accessing the Malaysia Waktu Solat API. This package provides
 
 ### JADUAL SOLAT (PDF Downloads)
 
-- `MptJadualSolatEndpoint` - Download monthly prayer timetables in PDF format
+- `MptJadualSolatEndpoint.download` - Download monthly prayer timetables in PDF format
 
 ### SOLAT V1 (JAKIM Compatible)
 
-- `MptSolatV1MonthEndpoint` - Monthly prayer times (JAKIM structure)
-- `MptSolatV1DayEndpoint` - Daily prayer times (JAKIM structure)
+- `MptSolatV1Endpoint.monthly` - Monthly prayer times (JAKIM structure)
+- `MptSolatV1Endpoint.daily` - Daily prayer times (JAKIM structure)
 
 ### SOLAT V2 (Updated Format)
 
-- `MptSolatV2Endpoint` - Monthly prayer times by zone
-- `MptSolatV2GpsEndpoint` - Monthly prayer times by GPS coordinates
+- `MptSolatV2Endpoint.byZone` - Monthly prayer times by zone
+- `MptSolatV2Endpoint.byGps` - Monthly prayer times by GPS coordinates
 
 ### ZONES (Location Information)
 
-- `MptZonesEndpoint` - All zones information
-- `MptZonesByStateEndpoint` - Zones by state
-- `MptZonesByGpsEndpoint` - Zone detection by GPS coordinates
+- `MptZonesEndpoint.listAll` - All zones information
+- `MptZonesEndpoint.byState` - Zones by state
+- `MptZonesEndpoint.byGps` - Zone detection by GPS coordinates
 
 ## Getting started
 
@@ -40,7 +40,7 @@ Add this package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  waktusolat_api_client_core: ^1.0.0
+  waktusolat_api_client_core: ^2.0.0
 ```
 
 Then run:
@@ -58,19 +58,23 @@ import 'package:waktusolat_api_client_core/waktusolat_api_client_core.dart';
 
 void main() {
   // Get current month prayer times for SGR01 zone
-  var endpoint = MptSolatV2Endpoint('SGR01');
-  print(endpoint.getFullUrl());
-  // Output: https://api.waktusolat.app/v2/solat/SGR01
+  final endpoint = MptSolatV2Endpoint.byZone('SGR01');
+  print(endpoint);
+  // https://api.waktusolat.app/v2/solat/SGR01
 
   // Get prayer times for specific month and year
-  var specificEndpoint = MptSolatV2Endpoint('SGR01', year: 2025, month: 8);
-  print(specificEndpoint.getFullUrl());
-  // Output: https://api.waktusolat.app/v2/solat/SGR01?year=2025&month=8
+  final specificEndpoint =
+      MptSolatV2Endpoint.byZone('SGR01', year: 2025, month: 8);
+  print(specificEndpoint);
+  // https://api.waktusolat.app/v2/solat/SGR01?year=2025&month=8
 
   // Get prayer times using GPS coordinates
-  var gpsEndpoint = MptSolatV2GpsEndpoint(3.068498, 101.630263);
-  print(gpsEndpoint.getFullUrl());
-  // Output: https://api.waktusolat.app/v2/solat/3.068498/101.630263
+  final gpsEndpoint = MptSolatV2Endpoint.byGps(
+    latitude: 3.068498,
+    longitude: 101.630263,
+  );
+  print(gpsEndpoint);
+  // https://api.waktusolat.app/v2/solat/3.068498/101.630263
 }
 ```
 
@@ -78,20 +82,29 @@ void main() {
 
 ```dart
 // JADUAL SOLAT - PDF Downloads
-var pdfEndpoint = MptJadualSolatEndpoint('SGR01', year: 2025, month: 12);
+var pdfEndpoint = MptJadualSolatEndpoint.download('SGR01', year: 2025, month: 12);
 
 // SOLAT V1 - JAKIM Compatible Format
-var v1MonthEndpoint = MptSolatV1MonthEndpoint('SGR01', year: 2024, month: 4);
-var v1DayEndpoint = MptSolatV1DayEndpoint('SGR01', 15, year: 2024, month: 4);
+var v1MonthEndpoint =
+  MptSolatV1Endpoint.monthly('SGR01', year: 2024, month: 4);
+var v1DayEndpoint = MptSolatV1Endpoint.daily('SGR01', 15, year: 2024, month: 4);
 
 // SOLAT V2 - Updated Format
-var v2ZoneEndpoint = MptSolatV2Endpoint('SGR01', year: 2025, month: 8);
-var v2GpsEndpoint = MptSolatV2GpsEndpoint(3.068498, 101.630263, year: 2025, month: 8);
+var v2ZoneEndpoint = MptSolatV2Endpoint.byZone('SGR01', year: 2025, month: 8);
+var v2GpsEndpoint = MptSolatV2Endpoint.byGps(
+  latitude: 3.068498,
+  longitude: 101.630263,
+  year: 2025,
+  month: 8,
+);
 
 // ZONES - Location Information
-var allZonesEndpoint = MptZonesEndpoint();
-var stateZonesEndpoint = MptZonesByStateEndpoint('prk'); // Perak
-var gpsZoneEndpoint = MptZonesByGpsEndpoint(3.068498, 101.630263);
+var allZonesEndpoint = MptZonesEndpoint.listAll();
+var stateZonesEndpoint = MptZonesEndpoint.byState('prk'); // Perak
+var gpsZoneEndpoint = MptZonesEndpoint.byGps(
+  latitude: 3.068498,
+  longitude: 101.630263,
+);
 ```
 
 ### Custom Base URL
@@ -101,9 +114,9 @@ var gpsZoneEndpoint = MptZonesByGpsEndpoint(3.068498, 101.630263);
 MptBaseController.setBaseUrl('https://api.example.com');
 
 // All endpoints will now use the custom URL
-var endpoint = MptSolatV2Endpoint('SGR01');
-print(endpoint.getFullUrl());
-// Output: https://api.example.com/v2/solat/SGR01
+var endpoint = MptSolatV2Endpoint.byZone('SGR01');
+print(endpoint);
+// https://api.example.com/v2/solat/SGR01
 
 // Reset to default
 MptBaseController.setBaseUrl('https://api.waktusolat.app');
